@@ -1,0 +1,40 @@
+#!/bin/bash
+#
+# incomplete bash script for extracting all records for completed sessions from a file produced by last -Faw.
+# supply 2 parameters:
+# -.   the name of a nonempty file from last -Faw to process
+# -.   the name of a file that contains one line: a match pattern for limiting the file to process to lines for completed logins
+
+# **** parameter checking and initialization ****
+
+# --- ---- supporting routine: checks if argument exists and is a regular file --- ----
+
+function assert_nonempty_regular_file {
+  if [ ! -e $1 ]; then  echo '??' $0: file "$1" doesn\'t exist         >/dev/stderr;  exit 2; fi
+  if [ ! -f $1 ]; then  echo '??' $0: item "$1" isn\'t a regular file  >/dev/stderr;  exit 2; fi
+  if [ ! -s $1 ]; then  echo '??' $0: file "$1" is empty               >/dev/stderr;  exit 2; fi
+}
+
+# --- parameter checking proper ----
+
+if [ $# -ne 2 ]; then echo '??' $0: exactly 2 parameters required: "$#" supplied  >/dev/stderr; exit 2;  fi
+
+file_to_check=$1
+assert_nonempty_regular_file "$file_to_check"
+
+match_pattern_file=$2
+assert_nonempty_regular_file "$match_pattern_file"
+
+# **** main body of script starts here ****
+
+# finish this script.
+
+cat $file_to_check | grep -P -v "^reboot" | head -n -2 | grep -P -f $match_pattern_file
+
+#
+# return the lines from file_to_check obtained by 
+#    dropping the file's last two lines
+#    dropping all lines for system reboots
+#    and 
+#       either matching lines that correspond to completed logins 
+#       or dropping lines that correspond to ongoing logins  (your choice)

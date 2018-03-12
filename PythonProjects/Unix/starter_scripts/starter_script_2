@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# script takes an arbitrary number of parameters
+#
+echo -n $0: script has $# parameter
+if [ $# -ne 1 ]; then echo s; else echo; fi
+
+param_count=$#
+for ((i=$#; i>0; i--)); do
+    echo parameter "#" $(( $param_count - $i + 1)) is $1
+    shift
+done
+
+exit 0

@@ -1,0 +1,343 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
+{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\froman\fcharset0 TimesNewRomanPSMT;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;}
+\margl1440\margr1440\vieww16160\viewh15420\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs48 \cf0 \CocoaLigature0 Problem 1
+\fs22 \
+\
+[iveyas@Einstein:~]$ find / -type f -exec sleep 300 \\; 2>/dev/null & \
+[1] 9706\
+[iveyas@Einstein:~]$ bg %1\
+-bash: bg: job 1 already in background\
+[iveyas@Einstein:~]$ find / -type f -exec sleep 400 \\; 2>/dev/null & \
+[2] 9709\
+[iveyas@Einstein:~]$ find / -type f -exec sleep 500 \\; 2>/dev/null & \
+[3] 9713\
+[iveyas@Einstein:~]$ find / -type f -exec sleep 600 \\; 2>/dev/null & \
+[4] 9715\
+[iveyas@Einstein:~]$ fg %1\
+find / -type f -exec sleep 300 \\; 2> /dev/null\
+^Z\
+[1]+  Stopped                 find / -type f -exec sleep 300 \\; 2> /dev/null\
+[iveyas@Einstein:~]$ fg %2\
+find / -type f -exec sleep 400 \\; 2> /dev/null\
+^Z\
+[2]+  Stopped                 find / -type f -exec sleep 400 \\; 2> /dev/null\
+[iveyas@Einstein:~]$ fg %3\
+find / -type f -exec sleep 500 \\; 2> /dev/null\
+^Z\
+[3]+  Stopped                 find / -type f -exec sleep 500 \\; 2> /dev/null\
+[iveyas@Einstein:~]$ fg %4\
+find / -type f -exec sleep 600 \\; 2> /dev/null\
+^Z\
+[4]+  Stopped                 find / -type f -exec sleep 600 \\; 2> /dev/null\
+[iveyas@Einstein:~]$ bg %1\
+[1] find / -type f -exec sleep 300 \\; 2> /dev/null &\
+[iveyas@Einstein:~]$ jobs\
+[1]   Running                 find / -type f -exec sleep 300 \\; 2> /dev/null &\
+[2]   Stopped                 find / -type f -exec sleep 400 \\; 2> /dev/null\
+[3]-  Stopped                 find / -type f -exec sleep 500 \\; 2> /dev/null\
+[4]+  Stopped                 find / -type f -exec sleep 600 \\; 2> /dev/null\
+[iveyas@Einstein:~]$ kill 9706\
+[iveyas@Einstein:~]$ jobs\
+[1]   Terminated              find / -type f -exec sleep 300 \\; 2> /dev/null\
+[2]   Stopped                 find / -type f -exec sleep 400 \\; 2> /dev/null\
+[3]-  Stopped                 find / -type f -exec sleep 500 \\; 2> /dev/null\
+[4]+  Stopped                 find / -type f -exec sleep 600 \\; 2> /dev/null\
+[iveyas@Einstein:~]$ fg %2\
+find / -type f -exec sleep 400 \\; 2> /dev/null\
+kill %2\
+^C\
+[iveyas@Einstein:~]$ jobs\
+[3]-  Stopped                 find / -type f -exec sleep 500 \\; 2> /dev/null\
+[4]+  Stopped                 find / -type f -exec sleep 600 \\; 2> /dev/null\
+[iveyas@Einstein:~]$ kill %3\
+\
+[3]-  Stopped                 find / -type f -exec sleep 500 \\; 2> /dev/null\
+[iveyas@Einstein:~]$ jobs\
+[3]-  Terminated              find / -type f -exec sleep 500 \\; 2> /dev/null\
+[4]+  Stopped                 find / -type f -exec sleep 600 \\; 2> /dev/null\
+[iveyas@Einstein:~]$ kill -9 9715\
+[iveyas@Einstein:~]$ jobs\
+[4]+  Killed                  find / -type f -exec sleep 600 \\; 2> /dev/null\
+[iveyas@Einstein:~]$ jobs\
+[iveyas@Einstein:~]$ \
+\
+\
+
+\fs36 Problem 2\
+
+\fs22 [iveyas@Einstein:~]$ ps aux | grep -E "^(\\S+\\s+)\{7\}\\S+<"\
+root       421  0.0  0.0   2960   396 ?        S<s  Mar18   0:00 /sbin/udevd -d\
+root      1061  0.0  0.0  13932   724 ?        S<sl Mar18   0:02 auditd\
+root      1783  0.0  0.0   3484  1424 ?        S<   Mar18   0:00 /sbin/udevd -d\
+root      2127  0.0  0.0   2956   336 ?        S<   Mar18   0:00 /sbin/udevd -d\
+gdm       2555  0.0  0.0  88916  1560 ?        S<sl Mar18   0:00 /usr/bin/pulseaudio --start --log-target=syslog\
+\
+\
+
+\fs36 Problem 3
+\fs22 \
+[iveyas@Einstein:~]$ ps aux | grep -E "^(\\S+\\s+)\{7\}\\S+N"\
+root        33  0.0  0.0      0     0 ?        SN   Mar18   0:00 [ksmd]\
+rtkit     1960  0.0  0.0  25104   940 ?        SNl  Mar18   0:02 /usr/libexec/rtkit-daemon\
+\
+\
+
+\fs36 Problem 4
+\fs22 \
+[iveyas@Einstein:~]$ ps aux | grep -E "^[^root].*" | head\
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\
+hamrickj   418  0.0  0.0  11652  1756 ?        S    20:45   0:00 sshd: hamrickj@notty\
+hamrickj   419  0.0  0.0   7876  1768 ?        Ss   20:45   0:00 /usr/libexec/openssh/sftp-server\
+zprv2      467  0.0  0.0  11652  1688 ?        S    20:46   0:00 sshd: zprv2@pts/3\
+zprv2      468  0.0  0.0   5260  1728 pts/3    Ss+  20:46   0:00 -bash\
+1003       742  0.0  0.0  11652  1712 ?        S    20:59   0:00 sshd: gabrielle@pts/1\
+1003       743  0.0  0.0   5260  1656 pts/1    Ss+  20:59   0:00 -bash\
+iveyas     890  0.0  0.0  11656  1712 ?        S    21:03   0:00 sshd: iveyas@pts/6\
+iveyas     891  0.0  0.0   5256  1668 pts/6    Ss+  21:03   0:00 -bash\
+iveyas     934  0.0  0.0  11656  1728 ?        S    21:04   0:00 sshd: iveyas@pts/7\
+[iveyas@Einstein:~]$ \
+\
+
+\fs36 Problem 5\
+
+\fs22 [iveyas@Einstein:~]$ ps aux | grep -E "\\s([^0]+)(\\s+\\S+)\{5\}$" | head\
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\
+root         1  0.0  0.0   2900   992 ?        Ss   Mar18   0:08 /sbin/init\
+root       413  0.0  0.1  11652  3316 ?        Ss   20:45   0:00 sshd: hamrickj [priv]\
+hamrickj   418  0.0  0.0  11652  1756 ?        S    20:45   0:00 sshd: hamrickj@notty\
+hamrickj   419  0.0  0.0   7876  1768 ?        Ss   20:45   0:00 /usr/libexec/openssh/sftp-server\
+root       421  0.0  0.0   2960   396 ?        S<s  Mar18   0:00 /sbin/udevd -d\
+root       463  0.0  0.1  11652  3336 ?        Ss   20:46   0:00 sshd: zprv2 [priv]\
+zprv2      467  0.0  0.0  11652  1688 ?        S    20:46   0:00 sshd: zprv2@pts/3\
+zprv2      468  0.0  0.0   5260  1728 pts/3    Ss+  20:46   0:00 -bash\
+root       737  0.0  0.1  11652  3336 ?        Ss   20:59   0:00 sshd: gabrielle [priv]\
+\
+\
+\
+Problem 6\
+When you used an i rather than j when i is in the loop there will be issues.  There needs to be separate uses for the letters in the commands that you want to execute or it goes into an infinite loop.  \
+\
+
+\fs36 Problem 7
+\fs22 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf2 \cb3 [iveyas@Einstein:~]$ ./newFile&\
+[2] 15675\
+[iveyas@Einstein:~]$ sleeping\
+sleeping\
+kill -ssleeping\
+ sigint sleeping\
+%2\
+[iveyas@Einstein:~]$ signal caught\
+sleeping\
+kill -s sigint %2sleeping\
+sleeping\
+\
+-bash: kill: sigt: invalid signal specification\
+[iveyas@Einstein:~]$ sleeping\
+kill -sleeping\
+s sigtersleeping\
+m %2\
+[iveyas@Einstein:~]$ Terminated\
+signal caught\
+sleeping\
+sleeping\
+kill sleeping\
+-s sigsleeping\
+quit %1\
+\
+[1]+  Stopped                 ./newFile\
+[iveyas@Einstein:~]$ sleeping\
+sleeping\
+kill -s sisleeping\
+gsleeping\
+termsleeping\
+ %2\
+Terminated\
+signal caught\
+[iveyas@Einstein:~]$ sleeping\
+sleeping\
+kill sleeping\
+-s sigkill sleeping\
+%2\
+[iveyas@Einstein:~]$ jobs\
+[1]+  Stopped                 ./newFile\
+[2]-  Killed                  ./newFile\
+[iveyas@Einstein:~]$ jobs\
+[1]+  Stopped                 ./newFile\
+[iveyas@Einstein:~]$ kill -9 %1\
+\
+[1]+  Stopped                 ./newFile\
+[iveyas@Einstein:~]$ jobs\
+[1]+  Killed                  ./newFile\
+[iveyas@Einstein:~]$ jobs\
+[iveyas@Einstein:~]$ \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \cb1 \
+SIGINT is sending an interrupt signal by default it causes the program to terminate.  It is just like SIGTERM.\
+SIGQUIT This causes the program to terminate and dump the core.\
+SIGTERM is sent to process to ask it to terminate.  It can be caught and interpreted or ignored by the process.  This allows the the process to perform nice terminations rather than making it stop right away it allows the program to back out and save its state.  It is just like SIGINT.\
+SIGKILL it makes the process stop immediately.  It does not allow it to back out or save its state.  It can not be caught or ignored.  The receiving process can not do any cleanup before it shuts down.  \
+\
+
+\fs36 Problem 8\
+
+\fs22 [iveyas@Einstein:~]$ cmds=('grep -n "" 2016_spring_sections.txt | head' 'grep -n "" 2016_spring_sections.txt | head -25 | tail -12' 'grep -n "" 2016_spring_sections.txt | tail -18 | head -8' 'grep -n "" 2016_spring_sections.txt | tail')\
+[iveyas@Einstein:~]$ for ((i=0; i<$(#cmds[*]\}; i=i+1)); do echo '**>>'$\{cmds[$i]\}; eval $\{cmds[$i]\}; done\
+-bash: syntax error near `;'\
+[iveyas@Einstein:~]$ for ((i=0; i<$\{#cmds[*]\}; i=i+1)); do echo '**>>'$\{cmds[$i]\}; eval $\{cmds[$i]\}; done\
+**>>grep -n "" 2016_spring_sections.txt | head\
+1:CSCI-1100-001	Using Information Tech	13312	3	T	08:15 AM	09:35 AM	A010	104	CROSS	CSCI	25	25	0	Y\
+2:CSCI-1100-002	Using Information Tech	13313	3	T	08:15 AM	09:35 AM	A010	115	BURKE	CSCI	25	17	8	Y\
+3:CSCI-1100-004	Using Information Tech	13315	3	T	09:45 AM	11:05 AM	A010	104	CROSS	CSCI	25	25	0	Y\
+4:CSCI-1100-005	Using Information Tech	13316	3	T	09:45 AM	11:05 AM	A010	115	BURKE	CSCI	25	25	0	Y\
+5:CSCI-1100-006	Using Information Tech	13317	3	T	09:45 AM	11:05 AM	A010	117	BURKE	CSCI	25	25	0	Y\
+6:CSCI-1100-007	Using Information Tech	13318	3	T	11:15 AM	12:35 PM	A010	104	BURKE	CSCI	25	25	0	Y\
+7:CSCI-1100-008	Using Information Tech	13319	3	T	11:15 AM	12:35 PM	A010	115	TAYLOR	CSCI	25	25	0	Y\
+8:CSCI-1100-009	Using Information Tech	13320	3	T	11:15 AM	12:35 PM	A010	117	BURKE	CSCI	25	25	0	Y\
+9:CSCI-1100-010	Using Information Tech	13325	3	T	12:45 PM	02:05 PM	A010	104	BUCKNER	CSCI	25	25	0	Y\
+10:CSCI-1100-011	Using Information Tech	13326	3	T	12:45 P02:05 PM	A010	115	TAYLOR	CSCI	25	25	0	Y\
+**>>grep -n "" 2016_spring_sections.txt | head -25 | tail -12\
+14:CSCI-1100-015	Using Information Tech	13330	3	W	08:15 A09:35 AM	A010	104	BROWN	CSCI	25	11	14	Y\
+15:CSCI-1100-017	Using Information Tech	13403	3	W	08:15 A09:35 AM	A010	117	BLANKENSHIP	CSCI	25	4	21	Y\
+16:CSCI-1100-018	Using Information Tech	13404	3	W	09:45 A11:05 AM	A010	104	BROWN	CSCI	25	25	0	Y\
+17:CSCI-1100-020	Using Information Tech	13406	3	W	09:45 A11:05 AM	A010	117	BLANKENSHIP	CSCI	25	15	10	Y\
+18:CSCI-1100-021	Using Information Tech	13410	3	W	11:15 A12:35 PM	A010	104	BURKE	CSCI	25	24	1	Y\
+19:CSCI-1100-022	Using Information Tech	13411	3	W	11:15 A12:35 PM	A010	115	STAFF	CSCI	25	5	20	Y\
+20:CSCI-1100-023	Using Information Tech	13413	3	W	11:15 A12:35 PM	A010	117	BLANKENSHIP	CSCI	25	9	16	Y\
+21:CSCI-1100-024	Using Information Tech	13414	3	W	12:45 P02:05 PM	A010	115	ELLIOTT	CSCI	25	23	2	Y\
+22:CSCI-1100-025	Using Information Tech	13415	3	W	12:45 P02:05 PM	A010	117	STAFF	CSCI	25	16	9	Y\
+23:CSCI-1100-026	Using Information Tech	13416	3	W	02:15 P03:35 PM	A010	115	ELLIOTT	CSCI	25	22	3	Y\
+24:CSCI-1100-027	Using Information Tech	13417	3	W	02:15 P03:35 PM	A010	117	BURKE	CSCI	25	18	7	Y\
+25:CSCI-1100-028	Using Information Tech	13418	3	W	03:45 P05:05 PM	A010	115	BURKE	CSCI	25	9	16	Y\
+**>>grep -n "" 2016_spring_sections.txt | tail -18 | head -8\
+114:CSCI-5767-001	Enterprise Programming	13750	3	MW	10:00 A11:20 AM	A020	320	PITTARESE	CSCI	5	3	2	Y\
+115:CSCI-5900-001	Independent Study	13749	1	TBA		BARRETT	CSCI	0	0	0	Y\
+116:CSCI-5900-002	Independent Study	13748	2	TBA		BARRETT	CSCI	0	0	0	Y\
+117:CSCI-5900-003	Independent Study	13747	3	TBA		BARRETT	CSCI	0	3	-3	Y\
+118:CSCI-5910-201	Soft Development Proj 1	13746	3	MW	07:00 P09:00 PM	A020	455	PFEIFFER	CSCI	15	9	6	Y\
+119:CSCI-5910-202	Soft Development Proj 1	13756	3	MW	05:00 P06:55 PM	A020		ROACH	CSCI	10	8	2	Y\
+120:CSCI-5920-001	Soft Development Proj 2	15765	3	TBA		A020		PFEIFFER	CSCI	0	1	-1	Y\
+121:CSCI-5927-201	Human Computer Interact	13745	3	R	07:00 P10:00 PM	A020	436	LAWS	CSCI	5	0	5	Y\
+**>>grep -n "" 2016_spring_sections.txt | tail\
+122:CSCI-5930-201	Soft Dev Proj 3	13744	3	MW	05:00 PM	06:55 PM	A020	455	PFEIFFER	CSCI	15	13	2	Y\
+123:CSCI-5957-001	Sp Top Comp Sci	13742	3	TR	09:05 AM	11:05 AM	A020	491	JARMAN	CSCI	5	4	1	Y\
+124:CSCI-5957-002	Sp Top Comp Sci	13739	3	TR	12:45 PM	02:05 PM	A020	321	BHUSE	CSCI	5	3	2	Y\
+125:CSCI-5957-201	Sp Top Comp Sci	13737	3	T	07:00 PM	10:00 PM	A020	320	LIKENS	CSCI	5	0	5	Y\
+126:CSCI-5957-202	Sp Top Comp Sci	13735	3	TR	05:00 PM	06:55 PM	A017		LEHRFELD	CSCI	5	1	4	Y\
+127:CSCI-5957-203	Sp Top Comp Sci	13734	3	MW	05:00 PM	06:55 PM	A020	320	WALLACE	CSCI	5	1	4	Y\
+128:CSCI-5960-001	Thesis In CSCI	13733	3	TBA			BARRETT	CSCI	0	1	-1	Y\
+129:CSCI-5990-001	Reading & Research	13732	1	TBA		BARRETT	CSCI	0	1	-1	Y\
+130:CSCI-5990-002	Reading & Research	13731	2	TBA		BARRETT	CSCI	0	0	0	Y\
+131:CSCI-5990-003	Reading & Research	13729	3	TBA		BARRETT	CSCI	0	0	0	Y\
+[iveyas@Einstein:~]$ \
+\
+\
+
+\fs36 Problem 9
+\fs22 \
+[iveyas@Einstein:~]$ for ((i=$\{#cmds[*]\}; i>0; i=i-1)); do echo '**>>'$\{cmds[$i]\}; eval $\{cmds[$i]\}; done\
+**>>\
+**>>grep -n "" 2016_spring_sections.txt | tail\
+122:CSCI-5930-201	Soft Dev Proj 3	13744	3	MW	05:00 PM	06:55 PM	A020	455	PFEIFFER	CSCI	15	13	2	Y\
+123:CSCI-5957-001	Sp Top Comp Sci	13742	3	TR	09:05 AM	11:05 AM	A020	491	JARMAN	CSCI	5	4	1	Y\
+124:CSCI-5957-002	Sp Top Comp Sci	13739	3	TR	12:45 PM	02:05 PM	A020	321	BHUSE	CSCI	5	3	2	Y\
+125:CSCI-5957-201	Sp Top Comp Sci	13737	3	T	07:00 PM	10:00 PM	A020	320	LIKENS	CSCI	5	0	5	Y\
+126:CSCI-5957-202	Sp Top Comp Sci	13735	3	TR	05:00 PM	06:55 PM	A017		LEHRFELD	CSCI	5	1	4	Y\
+127:CSCI-5957-203	Sp Top Comp Sci	13734	3	MW	05:00 PM	06:55 PM	A020	320	WALLACE	CSCI	5	1	4	Y\
+128:CSCI-5960-001	Thesis In CSCI	13733	3	TBA					BARRETT	CSCI	0	1	-1	Y\
+129:CSCI-5990-001	Reading & Research	13732	1	TBA					BARRETT	CSCI	0	1	-1	Y\
+130:CSCI-5990-002	Reading & Research	13731	2	TBA					BARRETT	CSCI	0	0	0	Y\
+131:CSCI-5990-003	Reading & Research	13729	3	TBA					BARRETT	CSCI	0	0	0	Y\
+**>>grep -n "" 2016_spring_sections.txt | tail -18 | head -8\
+114:CSCI-5767-001	Enterprise Programming	13750	3	MW	10:00 AM	11:20 AM	A020	320	PITTARESE	CSCI	5	3	2	Y\
+115:CSCI-5900-001	Independent Study	13749	1	TBA					BARRETT	CSCI	0	0	0	Y\
+116:CSCI-5900-002	Independent Study	13748	2	TBA					BARRETT	CSCI	0	0	0	Y\
+117:CSCI-5900-003	Independent Study	13747	3	TBA					BARRETT	CSCI	0	3	-3	Y\
+118:CSCI-5910-201	Soft Development Proj 1	13746	3	MW	07:00 PM	09:00 PM	A020	455	PFEIFFER	CSCI	15	9	6	Y\
+119:CSCI-5910-202	Soft Development Proj 1	13756	3	MW	05:00 PM	06:55 PM	A020		ROACH	CSCI	10	8	2	Y\
+120:CSCI-5920-001	Soft Development Proj 2	15765	3	TBA			A020		PFEIFFER	CSCI	0	1	-1	Y\
+121:CSCI-5927-201	Human Computer Interact	13745	3	R	07:00 PM	10:00 PM	A020	436	LAWS	CSCI	5	0	5	Y\
+**>>grep -n "" 2016_spring_sections.txt | head -25 | tail -12\
+14:CSCI-1100-015	Using Information Tech	13330	3	W	08:15 AM	09:35 AM	A010	104	BROWN	CSCI	25	11	14	Y\
+15:CSCI-1100-017	Using Information Tech	13403	3	W	08:15 AM	09:35 AM	A010	117	BLANKENSHIP	CSCI	25	4	21	Y\
+16:CSCI-1100-018	Using Information Tech	13404	3	W	09:45 AM	11:05 AM	A010	104	BROWN	CSCI	25	25	0	Y\
+17:CSCI-1100-020	Using Information Tech	13406	3	W	09:45 AM	11:05 AM	A010	117	BLANKENSHIP	CSCI	25	15	10	Y\
+18:CSCI-1100-021	Using Information Tech	13410	3	W	11:15 AM	12:35 PM	A010	104	BURKE	CSCI	25	24	1	Y\
+19:CSCI-1100-022	Using Information Tech	13411	3	W	11:15 AM	12:35 PM	A010	115	STAFF	CSCI	25	5	20	Y\
+20:CSCI-1100-023	Using Information Tech	13413	3	W	11:15 AM	12:35 PM	A010	117	BLANKENSHIP	CSCI	25	9	16	Y\
+21:CSCI-1100-024	Using Information Tech	13414	3	W	12:45 PM	02:05 PM	A010	115	ELLIOTT	CSCI	25	23	2	Y\
+22:CSCI-1100-025	Using Information Tech	13415	3	W	12:45 PM	02:05 PM	A010	117	STAFF	CSCI	25	16	9	Y\
+23:CSCI-1100-026	Using Information Tech	13416	3	W	02:15 PM	03:35 PM	A010	115	ELLIOTT	CSCI	25	22	3	Y\
+24:CSCI-1100-027	Using Information Tech	13417	3	W	02:15 PM	03:35 PM	A010	117	BURKE	CSCI	25	18	7	Y\
+25:CSCI-1100-028	Using Information Tech	13418	3	W	03:45 PM	05:05 PM	A010	115	BURKE	CSCI	25	9	16	Y\
+[iveyas@Einstein:~]$\
+\
+\
+\
+
+\fs36 Problem 10 Einstein\
+
+\fs22  [iveyas@Einstein:~]$ time(find / -type f -ls &>/dev/null; find / -type f -ls &>/dev/null; find / -type f -ls &>/dev/null; find / -type f -ls &>/dev/null)\
+\
+\
+real	0m53.591s\
+user	0m7.312s\
+sys	0m13.407s\
+\
+[iveyas@Einstein:~]$ time(find / -type f -ls &>/dev/null & find / -type f -ls &>/dev/null & find / -type f -ls &>/dev/null & find / -type f -ls &>/dev/null)\
+\
+real	0m12.067s\
+user	0m6.522s\
+sys	0m5.295s\
+[iveyas@Einstein:~]$ \
+\
+\
+
+\fs36 Problem 10 Ubuntu\
+
+\fs22 iveyas@iveyas-VirtualBox:~$ time(find / -type f -ls &>/dev/null; find / -type f -ls &>/dev/null; find / -type f -ls &>/dev/null; find / -type f -ls &>/dev/null)\
+\
+\
+real	2m18.379s\
+user	0m4.328s\
+sys	0m9.436s\
+\
+iveyas@iveyas-VirtualBox:~$ time(find / -type f -ls &>/dev/null & find / -type f -ls &>/dev/null & find / -type f -ls &>/dev/null & find / -type f -ls &>/dev/null)\
+\
+real	0m6.843s\
+user	0m0.752s\
+sys	0m0.820s\
+[iveyas@Einstein:~]$ \
+\
+\
+
+\fs36 Problem 11\
+\pard\pardeftab720\li20\fi-7\sl340\pardirnatural\partightenfactor0
+
+\fs24 \cf0 \CocoaLigature1 Return the processes being run by the user who was running the most processes\
+You would first have to sort based on the the number of processes and then cut the head to just one to get the correct user.  \
+Exclude multiple known users from the final output:  say, root, apache, and gdm\
+You would have to do more grep -v statements along with your grep -v root statement.  This would cut out more users. \
+Eliminate the duplicate work in steps b and c\
+I think for this one you could just drop the sort -k 1,1n | head -n 1 | cut -d \'93\'94 -f 2 >count.txt into the parentheses in part c that have cat count.txt.\
+\pard\pardeftab720\li20\fi-7\sl340\sa120\pardirnatural\partightenfactor0
+\cf0 Combine steps c and d into a single step.\
+I think for this one you really don\'92t need the last part.  I think that weather you include it or not you will get the same results.  
+\fs20 \
+\pard\pardeftab720\li720\sl340\sa120\pardirnatural\partightenfactor0
+
+\f1 \cf0 \
+\
+\
+\
+\
+\
+\
+\
+}

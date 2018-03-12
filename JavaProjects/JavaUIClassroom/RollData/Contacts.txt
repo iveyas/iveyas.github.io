@@ -1,0 +1,11 @@
+CSCI 1260  |  Introduction to Computer Science  |  Bennett
+Barone|Seth|CRMJ|SENIOR|99|2.8|photo.jpg
+Garson|Karen|SOCL|OTHER|86|2.2|photo.jpg
+Garson|Neil|NURS|JUNIOR|75|4.0|photo.jpg
+Ivey|Allison|CSCI|FRESHMAN|55|3.9|photo.jpg
+Ivey|Eleanor|ART|SOPHOMORE|75|4.0|photo.jpg
+Ivey|Katheryn|CRAP|OTHER|75|3.0|photo.jpg
+Ivey|Ramona|MUSC|FRESHMAN|75|4.0|photo.jpg
+Jackson|Alex|ARCH|OTHER|33|3.7|photo.jpg
+Jackson|Gillian|NURS|JUNIOR|56|3.4|photo.jpg
+Luhellier|Rob|BLDG|SOPHOMORE|99|2.0|photo.jpg

@@ -1,0 +1,73 @@
+#!/bin/bash
+#
+# incomplete bash script for generating a "total time logged in" value from a file produced by last -Faw.
+# supply 1 parameter to the script:
+# -.   the name of a nonempty file, derived from last -Faw, to process 
+#      requirements: 
+#      -.  must lack last two, "wtmp" records  (assumed)
+#      -.  must lack "root  system reboot" records  (assumed)
+#      -.  all session times must be less than a day long:  i.e., file may not contain time records of the form (\d+\+\d{2}:\d{2})  (checked)
+
+# **** parameter checking and initialization ****
+
+# --- ---- supporting routine: checks if argument exists and is a regular file --- ----
+
+function assert_nonempty_regular_file {
+  if [ ! -e $1 ]; then  echo '??' $0: file "$1" doesn\'t exist         >/dev/stderr;  exit 2; fi
+  if [ ! -f $1 ]; then  echo '??' $0: item "$1" isn\'t a regular file  >/dev/stderr;  exit 2; fi
+  if [ ! -s $1 ]; then  echo '??' $0: file "$1" is empty               >/dev/stderr;  exit 2; fi
+}
+
+# --- parameter checking proper ----
+
+if [ $# -ne 1 ]; then echo '??' $0: exactly 1 parameter required: "$#" supplied >/dev/stderr; exit 2;  fi
+
+file_to_total=$1
+assert_nonempty_regular_file "$file_to_total"
+
+if 
+[ $(cat $1 | grep -P -v "d\+\d\d:\d\d" | wc -l) -gt 0 ]
+then 
+echo You have enteries with logins greater than one day
+else
+echo The file you enterd it valid
+fi
+
+exit 1
+
+
+# finish the checking
+#
+# add a test that checks that there are no time records for logins that are a day or more long
+# if this test fails, write appropriate error message to /dev/stderr, then exit with a status code of 1
+
+# **** main body of script starts here ****
+
+# finish this script.  recommended procedure:
+#
+# *. total the minutes in file_to_total using a single pipelined command, along the lines of the one shown on slide 5.7 of slide deck 8.
+#    to construct this command, I recommend using
+#       tr to squeeze the input's runs of spaces into single spaces
+#       cut to extract the column that shows login time
+#       tr to convert : and ) to spaces
+#       a second cut to extract the minutes column
+#       a sed command that strips the leading 0 from all minutes of the form 00-09
+#          (note: this step is necessary because bash treats 08 and 09 as illegal octal values)
+#       a paste command to transpose the resulting n line file into a 1 line file with '+'s between the times
+#
+# *. total the hours in file_to_total using a single pipelined command, along the lines of the one shown on slide 5.7 of slide deck 8.
+#    to construct this command, I recommend using
+#       tr to squeeze the input's runs of spaces into single spaces
+#       cut to extract the column that shows login time
+#       tr to convert ( and : to spaces
+#       a second cut to extract the minutes column
+#       a sed command that strips the leading 0 from all minutes of the form 00-09
+#          (note: this step is necessary because bash treats 08 and 09 as illegal octal values)
+#       a paste command to transpose the resulting n line file into a 1 line file with '+'s between the times
+#
+# -. normalize the hours and minutes values:  i.e.,
+#    -.  first compute the number of full hours and leftover minutes in the minutes total. 
+#    -.  then compute the number of full days and leftover hours in (the hours total + the number of full hours in the minutes total)
+#    when you've done this step, you should have an equivalent total time, expressed as a number of days, 0-23 hours, and 0-59 minutes
+#
+# -.  finish by outputting the total number of days, hours, and minutes, in a self-describing output message  

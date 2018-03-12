@@ -1,0 +1,255 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red76\green249\blue240;\red21\green21\blue21;}
+\margl1440\margr1440\vieww14200\viewh7260\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf0 \ul \ulc0 Problem 1\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\b0\fs22 \cf2 \cb3 \ulnone \CocoaLigature0 [iveyas@Einstein:~]$ FIELD='([^\\t]*\\t)'\
+[iveyas@Einstein:~]$ grep -P "^$\{FIELD\}Usin" 2016_spring_sections.txt | wc -l\
+43\
+[iveyas@Einstein:~]$ grep -P "^$\{FIELD\}\{2\}13..5\\t" 2016_spring_sections.txt | wc -l\
+13\
+[iveyas@Einstein:~]$ grep -P "^$\{FIELD\}\{3\}3\\t" 2016_spring_sections.txt | wc -l\
+104\
+[iveyas@Einstein:~]$ grep -P "^$\{FIELD\}\{4\}T\\t" 2016_spring_sections.txt | wc -l\
+19\
+[iveyas@Einstein:~]$ grep -P "^$\{FIELD\}\{5\}[^t]*AM\\t" 2016_spring_sections.txt | wc -l\
+36\
+\
+[iveyas@Einstein:~]$ grep  -P  "^([^\\t]*\\t)Using"    2016_spring_sections.txt | wc -l\
+43\
+[iveyas@Einstein:~]$ grep  -P  "^([^\\t]*\\t)\{2\}13..5\\t"   2016_spring_sections.txt | wc -l\
+13\
+[iveyas@Einstein:~]$ grep  -P  "^([^\\t]*\\t)\{3\}3\\t"   2016_spring_sections.txt | wc -l\
+104\
+[iveyas@Einstein:~]$ grep  -P  "^([^\\t]*\\t)\{4\}T\\t"   2016_spring_sections.txt | wc -l\
+19\
+[iveyas@Einstein:~]$ grep  -P  "^([^\\t]*\\t)\{5\}[^t]*AM\\t"   2016_spring_sections.txt | wc -l\
+36\
+\
+Problem 2:\
+In examples 1a and 1b you did not use a final \\t to close off the pattern because there is not a tab after the word using.  If you were to put the tab character after using you would not have found anything because there are no instances of using followed by a tab.  \
+\
+Problem 3:\
+You could close it off with a Using[^\\t]*\\t so that it skips all the information after the using and then looks at the tab.  \
+\
+In example 4a and 4b you want to have the \\t so that it only looks at classes that meet one day a week.  If you did not have the trailing \\t then it would pick up all classes that have a T so you would not be limited to just the one day a week Tuesday classes.  \
+\
+Problem 4:\
+[iveyas@Einstein:~]$ grep  -P  "^([^\\t]*\\t)\{4\}[A-Z]\\t"   2016_spring_sections.txt | wc -l\
+50\
+\
+Problem 5:\
+[iveyas@Einstein:~]$ grep -P "\\t[T,R,F,M,W]\\t$\{FIELD\}$\{11\}" 2016_spring_sections.txt | wc -l\
+50\
+\
+Problem 6 \
+[iveyas@Einstein:~]$ grep  -P  "^([^\\t]*\\t)\{4\}[A-Z]\\t"   2016_spring_sections.txt | grep -P "^(\\s*)(\\S)\{5\}[^1].." | wc -l\
+9\
+\
+Problem 7\
+[iveyas@Einstein:~]$ grep -P "^$\{FIELD\}\{13\}[^0,-]" 2016_spring_sections.txt | sort -rn -t $'\\t' -k14,14\
+CSCI-5039-001	Supervised Admin	13724	1	TBA					BARRETT	CSCI	25	1	24	Y\
+CSCI-1100-017	Using Information Tech	13403	3	W	08:15 AM	09:35 AM	A010	117	BLANKENSHIP	CSCI	25	4	21	Y\
+CSCI-1100-022	Using Information Tech	13411	3	W	11:15 AM	12:35 PM	A010	115	STAFF	CSCI	25	5	20	Y\
+CSCI-1100-034	Using Information Tech	13434	3	R	09:45 AM	11:05 AM	A010	117	BURKE	CSCI	25	6	19	Y\
+CSCI-4957-002	Sp Top Comp Sci	13718	3	TR	12:45 PM	02:05 PM	A020	321	BHUSE	CSCI	25	7	18	Y\
+CSCI-1260-201	Intro Computer Sci II	13559	4	MW	05:00 PM	06:55 PM	A020	490	BAILES	CSCI	29	11	18	Y\
+CSCI-1100-029	Using Information Tech	13419	3	R	08:15 AM	09:35 AM	A010	104	BURKE	CSCI	25	7	18	Y\
+CSCI-4957-001	Sp Top Comp Sci	13717	3	TR	09:05 AM	11:05 AM	A020	491	JARMAN	CSCI	25	8	17	Y\
+CSCI-4957-203	Sp Top Comp Sci	13721	3	MW	05:00 PM	06:55 PM	A020	320	WALLACE	CSCI	25	9	16	Y\
+CSCI-1100-203	Using Information Tech	13465	3	R	05:30 PM	06:50 PM	A010	115	SCHULTZ	CSCI	25	9	16	Y\
+CSCI-1100-041	Using Information Tech	13444	3	R	02:15 PM	03:35 PM	A010	115	BURKE	CSCI	25	9	16	Y\
+CSCI-1100-028	Using Information Tech	13418	3	W	03:45 PM	05:05 PM	A010	115	BURKE	CSCI	25	9	16	Y\
+CSCI-1100-023	Using Information Tech	13413	3	W	11:15 AM	12:35 PM	A010	117	BLANKENSHIP	CSCI	25	9	16	Y\
+CSCI-4317-201	Internet and Computer Law	13699	3	W	05:10 PM	08:10 PM	A020	220	BAILEY	CSCI	25	10	15	Y\
+CSCI-1100-037	Using Information Tech	13437	3	R	11:15 AM	12:35 PM	A010	117	BURKE	CSCI	25	11	14	Y\
+CSCI-1100-015	Using Information Tech	13330	3	W	08:15 AM	09:35 AM	A010	104	BROWN	CSCI	25	11	14	Y\
+CSCI-2910-201	Server Side Web Prog	14407	4	TR	05:00 PM	06:55 PM	A020	491	MCMEEN	CSCI	25	12	13	Y\
+CSCI-1100-032	Using Information Tech	13431	3	R	09:45 AM	11:05 AM	A010	104	BURKE	CSCI	25	12	13	Y\
+CSCI-5029-001	Supervised Research	13723	1	TBA					BARRETT	CSCI	15	3	12	Y\
+CSCI-4957-201	Sp Top Comp Sci	13719	3	T	07:00 PM	10:00 PM	A020	320	LIKENS	CSCI	20	9	11	Y\
+CSCI-1100-040	Using Information Tech	13443	3	R	02:15 PM	03:35 PM	A010	104	BURKE	CSCI	25	14	11	Y\
+CSCI-2200-201	Unix Fundamentals	13681	3	TR	05:00 PM	06:55 PM	A020	331	PFEIFFER	CSCI	28	18	10	Y\
+CSCI-1100-020	Using Information Tech	13406	3	W	09:45 AM	11:05 AM	A010	117	BLANKENSHIP	CSCI	25	15	10	Y\
+CSCI-4927-201	Human Computer Interact	13716	3	R	07:00 PM	10:00 PM	A020	436	LAWS	CSCI	25	16	9	Y\
+CSCI-1100-W02	Using Information Tech	15732	3	TBA			WINTER	SESSION	OGLE	CSCI	25	16	9	Y\
+CSCI-1100-042	Using Information Tech	13446	3	R	03:45 PM	05:05 PM	A010	115	BURKE	CSCI	25	16	9	Y\
+CSCI-1100-036	Using Information Tech	13436	3	R	11:15 AM	12:35 PM	A010	115	BURTON	CSCI	25	16	9	Y\
+CSCI-1100-025	Using Information Tech	13415	3	W	12:45 PM	02:05 PM	A010	117	STAFF	CSCI	25	16	9	Y\
+CSCI-1100-013	Using Information Tech	13328	3	T	02:15 PM	03:35 PM	A010	115	ROWLAND	CSCI	25	16	9	Y\
+CSCI-5019-001	Supervised Teaching	13722	1	M	09:20 AM	10:15 AM	A010	104	COUNTERMINE	CSCI	25	17	8	Y\
+CSCI-2020-201	Database Fundamentals	13600	3	TR	05:00 PM	06:55 PM	A020	490	HOQUE	CSCI	28	20	8	Y\
+CSCI-1100-043	Using Information Tech	13457	3	F	09:45 AM	11:05 AM	A010	115	BURKE	CSCI	25	17	8	Y\
+CSCI-1100-014	Using Information Tech	13329	3	T	03:45 PM	05:05 PM	A010	115	ROWLAND	CSCI	25	17	8	Y\
+CSCI-1100-002	Using Information Tech	13313	3	T	08:15 AM	09:35 AM	A010	115	BURKE	CSCI	25	17	8	Y\
+CSCI-5730-201	Enterprise Info Systems	13751	3	TR	05:00 PM	06:55 PM	A020	436	PITTARESE	CSCI	20	13	7	Y\
+CSCI-1100-027	Using Information Tech	13417	3	W	02:15 PM	03:35 PM	A010	117	BURKE	CSCI	25	18	7	Y\
+CSCI-5910-201	Soft Development Proj 1	13746	3	MW	07:00 PM	09:00 PM	A020	455	PFEIFFER	CSCI	15	9	6	Y\
+CSCI-5300-201	Software Design	13726	3	T	07:00 PM	10:00 PM	A020	436	BARRETT	CSCI	25	19	6	Y\
+CSCI-4767-001	Enterprise Programming	13709	3	MW	10:00 AM	11:20 AM	A020	320	PITTARESE	CSCI	25	19	6	Y\
+CSCI-3350-201	Software Engineering II	13692	3	TR	05:00 PM	06:55 PM	A020	332	BENNETT	CSCI	15	9	6	Y\
+CSCI-3230-001	Algorithms	13687	4	TR	09:05 AM	11:05 AM	A020	331	WALLACE	CSCI	25	19	6	Y\
+CSCI-5957-201	Sp Top Comp Sci	13737	3	T	07:00 PM	10:00 PM	A020	320	LIKENS	CSCI	5	0	5	Y\
+CSCI-5927-201	Human Computer Interact	13745	3	R	07:00 PM	10:00 PM	A020	436	LAWS	CSCI	5	0	5	Y\
+CSCI-5317-201	Internet and Computer Law	13727	3	W	05:10 PM	08:10 PM	A020		BAILEY	CSCI	5	0	5	Y\
+CSCI-1250-004	Intro Computer Sci I	13534	4	TR	12:05 PM	02:05 PM	A020	436	BAILEY	CSCI	30	25	5	Y\
+CSCI-5957-203	Sp Top Comp Sci	13734	3	MW	05:00 PM	06:55 PM	A020	320	WALLACE	CSCI	5	1	4	Y\
+CSCI-5957-202	Sp Top Comp Sci	13735	3	TR	05:00 PM	06:55 PM	A017		LEHRFELD	CSCI	5	1	4	Y\
+CSCI-5220-201	Soft Ver & Valid	13725	3	R	07:00 PM	10:00 PM	A020	320	ROACH	CSCI	25	22	3	Y\
+CSCI-4957-202	Sp Top Comp Sci	13720	3	TR	05:00 PM	06:55 PM	A017		LEHRFELD	CSCI	25	22	3	Y\
+CSCI-1250-003	Intro Computer Sci I	13533	4	TR	09:05 AM	11:05 AM	A020	436	BAILEY	CSCI	30	27	3	Y\
+CSCI-1100-W01	Using Information Tech	14150	3	TBA			WINTER	SESSION	OGLE	CSCI	25	22	3	Y\
+CSCI-1100-039	Using Information Tech	13442	3	R	12:45 PM	02:05 PM	A010	115	BURTON	CSCI	25	22	3	Y\
+CSCI-1100-026	Using Information Tech	13416	3	W	02:15 PM	03:35 PM	A010	115	ELLIOTT	CSCI	25	22	3	Y\
+CSCI-5957-002	Sp Top Comp Sci	13739	3	TR	12:45 PM	02:05 PM	A020	321	BHUSE	CSCI	5	3	2	Y\
+CSCI-5930-201	Soft Dev Proj 3	13744	3	MW	05:00 PM	06:55 PM	A020	455	PFEIFFER	CSCI	15	13	2	Y\
+CSCI-5910-202	Soft Development Proj 1	13756	3	MW	05:00 PM	06:55 PM	A020		ROACH	CSCI	10	8	2	Y\
+CSCI-5767-001	Enterprise Programming	13750	3	MW	10:00 AM	11:20 AM	A020	320	PITTARESE	CSCI	5	3	2	Y\
+CSCI-2910-001	Server Side Web Prog	13683	4	TR	09:05 AM	11:05 AM	A020	492	TARNOFF	CSCI	25	23	2	Y\
+CSCI-1100-024	Using Information Tech	13414	3	W	12:45 PM	02:05 PM	A010	115	ELLIOTT	CSCI	25	23	2	Y\
+CSCI-5957-001	Sp Top Comp Sci	13742	3	TR	09:05 AM	11:05 AM	A020	491	JARMAN	CSCI	5	4	1	Y\
+CSCI-5727-201	Operating System	13752	3	TR	05:00 PM	06:55 PM	A020	130	BARRETT	CSCI	5	4	1	Y\
+CSCI-5417-001	Intro To System Administration	13728	3	TR	02:15 PM	04:15 PM	A020	436	RAMSEY	CSCI	3	2	1	Y\
+CSCI-3400-201	Networking Fundamentals	13694	3	MW	05:00 PM	06:55 PM	A020	331	BHUSE	CSCI	25	24	1	Y\
+CSCI-3400-001	Networking Fundamentals	13693	3	MW	12:35 PM	02:35 PM	A020	491	BHUSE	CSCI	25	24	1	Y\
+CSCI-1100-021	Using Information Tech	13410	3	W	11:15 AM	12:35 PM	A010	104	BURKE	CSCI	25	24	1	Y\
+[iveyas@Einstein:~]$ grep -P "^$\{FIELD\}\{13\}[^0,-]" 2016_spring_sections.txt | sort -rn -t $'\\t' -k14,14 | wc -l\
+65\
+[iveyas@Einstein:~]$ \
+\
+Problem 8: Am I not piping this through something because the output looks right\
+[iveyas@Einstein:~]$ grep -P "^$\{FIELD\}\{8\}[1|2|3].." 2016_spring_sections.txt | cat\
+CSCI-1100-001	Using Information Tech	13312	3	T	08:15 AM	09:35 AM	A010	104	CROSS	CSCI	25	25	0	Y\
+CSCI-1100-002	Using Information Tech	13313	3	T	08:15 AM	09:35 AM	A010	115	BURKE	CSCI	25	17	8	Y\
+CSCI-1100-004	Using Information Tech	13315	3	T	09:45 AM	11:05 AM	A010	104	CROSS	CSCI	25	25	0	Y\
+CSCI-1100-005	Using Information Tech	13316	3	T	09:45 AM	11:05 AM	A010	115	BURKE	CSCI	25	25	0	Y\
+CSCI-1100-006	Using Information Tech	13317	3	T	09:45 AM	11:05 AM	A010	117	BURKE	CSCI	25	25	0	Y\
+CSCI-1100-007	Using Information Tech	13318	3	T	11:15 AM	12:35 PM	A010	104	BURKE	CSCI	25	25	0	Y\
+CSCI-1100-008	Using Information Tech	13319	3	T	11:15 AM	12:35 PM	A010	115	TAYLOR	CSCI	25	25	0	Y\
+CSCI-1100-009	Using Information Tech	13320	3	T	11:15 AM	12:35 PM	A010	117	BURKE	CSCI	25	25	0	Y\
+CSCI-1100-010	Using Information Tech	13325	3	T	12:45 PM	02:05 PM	A010	104	BUCKNER	CSCI	25	25	0	Y\
+CSCI-1100-011	Using Information Tech	13326	3	T	12:45 PM	02:05 PM	A010	115	TAYLOR	CSCI	25	25	0	Y\
+CSCI-1100-012	Using Information Tech	13327	3	T	02:15 PM	03:35 PM	A010	104	BUCKNER	CSCI	25	25	0	Y\
+CSCI-1100-013	Using Information Tech	13328	3	T	02:15 PM	03:35 PM	A010	115	ROWLAND	CSCI	25	16	9	Y\
+CSCI-1100-014	Using Information Tech	13329	3	T	03:45 PM	05:05 PM	A010	115	ROWLAND	CSCI	25	17	8	Y\
+CSCI-1100-015	Using Information Tech	13330	3	W	08:15 AM	09:35 AM	A010	104	BROWN	CSCI	25	11	14	Y\
+CSCI-1100-017	Using Information Tech	13403	3	W	08:15 AM	09:35 AM	A010	117	BLANKENSHIP	CSCI	25	4	21	Y\
+CSCI-1100-018	Using Information Tech	13404	3	W	09:45 AM	11:05 AM	A010	104	BROWN	CSCI	25	25	0	Y\
+CSCI-1100-020	Using Information Tech	13406	3	W	09:45 AM	11:05 AM	A010	117	BLANKENSHIP	CSCI	25	15	10	Y\
+CSCI-1100-021	Using Information Tech	13410	3	W	11:15 AM	12:35 PM	A010	104	BURKE	CSCI	25	24	1	Y\
+CSCI-1100-022	Using Information Tech	13411	3	W	11:15 AM	12:35 PM	A010	115	STAFF	CSCI	25	5	20	Y\
+CSCI-1100-023	Using Information Tech	13413	3	W	11:15 AM	12:35 PM	A010	117	BLANKENSHIP	CSCI	25	9	16	Y\
+CSCI-1100-024	Using Information Tech	13414	3	W	12:45 PM	02:05 PM	A010	115	ELLIOTT	CSCI	25	23	2	Y\
+CSCI-1100-025	Using Information Tech	13415	3	W	12:45 PM	02:05 PM	A010	117	STAFF	CSCI	25	16	9	Y\
+CSCI-1100-026	Using Information Tech	13416	3	W	02:15 PM	03:35 PM	A010	115	ELLIOTT	CSCI	25	22	3	Y\
+CSCI-1100-027	Using Information Tech	13417	3	W	02:15 PM	03:35 PM	A010	117	BURKE	CSCI	25	18	7	Y\
+CSCI-1100-028	Using Information Tech	13418	3	W	03:45 PM	05:05 PM	A010	115	BURKE	CSCI	25	9	16	Y\
+CSCI-1100-029	Using Information Tech	13419	3	R	08:15 AM	09:35 AM	A010	104	BURKE	CSCI	25	7	18	Y\
+CSCI-1100-032	Using Information Tech	13431	3	R	09:45 AM	11:05 AM	A010	104	BURKE	CSCI	25	12	13	Y\
+CSCI-1100-034	Using Information Tech	13434	3	R	09:45 AM	11:05 AM	A010	117	BURKE	CSCI	25	6	19	Y\
+CSCI-1100-035	Using Information Tech	13435	3	R	11:15 AM	12:35 PM	A010	104	BURKE	CSCI	25	25	0	Y\
+CSCI-1100-036	Using Information Tech	13436	3	R	11:15 AM	12:35 PM	A010	115	BURTON	CSCI	25	16	9	Y\
+CSCI-1100-037	Using Information Tech	13437	3	R	11:15 AM	12:35 PM	A010	117	BURKE	CSCI	25	11	14	Y\
+CSCI-1100-038	Using Information Tech	13440	3	R	12:45 PM	02:05 PM	A010	104	BURKE	CSCI	25	25	0	Y\
+CSCI-1100-039	Using Information Tech	13442	3	R	12:45 PM	02:05 PM	A010	115	BURTON	CSCI	25	22	3	Y\
+CSCI-1100-040	Using Information Tech	13443	3	R	02:15 PM	03:35 PM	A010	104	BURKE	CSCI	25	14	11	Y\
+CSCI-1100-041	Using Information Tech	13444	3	R	02:15 PM	03:35 PM	A010	115	BURKE	CSCI	25	9	16	Y\
+CSCI-1100-042	Using Information Tech	13446	3	R	03:45 PM	05:05 PM	A010	115	BURKE	CSCI	25	16	9	Y\
+CSCI-1100-043	Using Information Tech	13457	3	F	09:45 AM	11:05 AM	A010	115	BURKE	CSCI	25	17	8	Y\
+CSCI-1100-060	Using Information Tech	13461	3	MW	12:45 PM	01:45 PM	A010	104	BURKE	CSCI	0	4	-4	Y\
+CSCI-1100-203	Using Information Tech	13465	3	R	05:30 PM	06:50 PM	A010	115	SCHULTZ	CSCI	25	9	16	Y\
+CSCI-1260-077	Intro Computer Sci II	13558	4	TR	12:35 PM	02:35 PM	A020	110	BENNETT	CSCI	0	12	-12	Y\
+CSCI-1260-088	Honors Intro Computer Sci II	13557	4	TR	12:35 PM	02:35 PM	A020	110	BENNETT	CSCI	0	3	-3	Y\
+CSCI-1510-001	Student In University	13572	3	MW	02:45 PM	04:05 PM	A020	320	COUNTERMINE	CSCI	16	16	0	Y\
+CSCI-1710-001	Web Design and Development	13573	3	MW	02:45 PM	04:45 PM	A020	331	RAMSEY	CSCI	25	29	-4	Y\
+CSCI-1710-201	Web Design and Development	13584	3	TR	05:00 PM	06:55 PM	A020	320	RAMSEY	CSCI	27	27	0	Y\
+CSCI-1900-001	Math for Computer Science	13587	3	MW	09:20 AM	10:40 AM	A020	331	HOQUE	CSCI	28	29	-1	Y\
+CSCI-1900-002	Math for Computer Science	13589	3	TR	02:15 PM	03:35 PM	A020	331	WALLACE	CSCI	28	30	-2	Y\
+CSCI-2020-002	Database Fundamentals	13598	3	MW	12:35 PM	02:35 PM	A020	320	HOQUE	CSCI	28	28	0	Y\
+CSCI-2150-001	Computer Organization	13604	3	TR	12:45 PM	02:05 PM	A020	331	TARNOFF	CSCI	28	29	-1	Y\
+CSCI-2150-201	Computer Organization	13614	3	MW	05:10 PM	06:30 PM	A020	332	TARNOFF	CSCI	28	28	0	Y\
+CSCI-2160-001	Assembly Language	13626	4	MW	12:35 PM	02:35 PM	A020	331	BAILEY	CSCI	25	26	-1	Y\
+CSCI-2200-201	Unix Fundamentals	13681	3	TR	05:00 PM	06:55 PM	A020	331	PFEIFFER	CSCI	28	18	10	Y\
+CSCI-2210-001	Data Structures	13682	4	TR	09:05 AM	11:05 AM	A020	320	BAILES	CSCI	25	31	-6	Y\
+CSCI-2210-002	Data Structures	16062	4	TR	02:15 PM	04:15 PM	A020	321	BAILES	CSCI	12	12	0	Y\
+CSCI-3230-001	Algorithms	13687	4	TR	09:05 AM	11:05 AM	A020	331	WALLACE	CSCI	25	19	6	Y\
+CSCI-3250-001	Software Engineer I	13690	3	MW	09:20 AM	11:20 AM	A012	130	BENNETT	CSCI	20	20	0	Y\
+CSCI-3350-001	Software Engineering II	13691	3	MW	12:35 PM	02:35 PM	A020	321	BARRETT	CSCI	15	15	0	Y\
+CSCI-3350-201	Software Engineering II	13692	3	TR	05:00 PM	06:55 PM	A020	332	BENNETT	CSCI	15	9	6	Y\
+CSCI-3400-201	Networking Fundamentals	13694	3	MW	05:00 PM	06:55 PM	A020	331	BHUSE	CSCI	25	24	1	Y\
+CSCI-3400-288	Honors Network Fundamentals	15517	3	MW	05:00 PM	06:55 PM	A020	331	BHUSE	CSCI	0	0	0	Y\
+CSCI-3500-001	Info Security & Assurance	13695	3	TR	12:05 PM	02:05 PM	A020	320	LEHRFELD	CSCI	25	29	-4	Y\
+CSCI-3500-088	Honors Info Security & Assurance	15518	3	TR	12:05 PM	02:05 PM	A020	320	LEHRFELD	CSCI	0	0	0	Y\
+CSCI-3720-001	Fund. of Business IS	13686	3	TR	02:15 PM	04:15 PM	A020	320	PITTARESE	CSCI	25	30	-5	Y\
+CSCI-4317-201	Internet and Computer Law	13699	3	W	05:10 PM	08:10 PM	A020	220	BAILEY	CSCI	25	10	15	Y\
+CSCI-4727-201	Operating System	13706	3	TR	05:00 PM	06:55 PM	A020	130	BARRETT	CSCI	25	36	-11	Y\
+CSCI-4767-001	Enterprise Programming	13709	3	MW	10:00 AM	11:20 AM	A020	320	PITTARESE	CSCI	25	19	6	Y\
+CSCI-4957-002	Sp Top Comp Sci	13718	3	TR	12:45 PM	02:05 PM	A020	321	BHUSE	CSCI	25	7	18	Y\
+CSCI-4957-201	Sp Top Comp Sci	13719	3	T	07:00 PM	10:00 PM	A020	320	LIKENS	CSCI	20	9	11	Y\
+CSCI-4957-203	Sp Top Comp Sci	13721	3	MW	05:00 PM	06:55 PM	A020	320	WALLACE	CSCI	25	9	16	Y\
+CSCI-5019-001	Supervised Teaching	13722	1	M	09:20 AM	10:15 AM	A010	104	COUNTERMINE	CSCI	25	17	8	Y\
+CSCI-5220-201	Soft Ver & Valid	13725	3	R	07:00 PM	10:00 PM	A020	320	ROACH	CSCI	25	22	3	Y\
+CSCI-5727-201	Operating System	13752	3	TR	05:00 PM	06:55 PM	A020	130	BARRETT	CSCI	5	4	1	Y\
+CSCI-5767-001	Enterprise Programming	13750	3	MW	10:00 AM	11:20 AM	A020	320	PITTARESE	CSCI	5	3	2	Y\
+CSCI-5957-002	Sp Top Comp Sci	13739	3	TR	12:45 PM	02:05 PM	A020	321	BHUSE	CSCI	5	3	2	Y\
+CSCI-5957-201	Sp Top Comp Sci	13737	3	T	07:00 PM	10:00 PM	A020	320	LIKENS	CSCI	5	0	5	Y\
+CSCI-5957-203	Sp Top Comp Sci	13734	3	MW	05:00 PM	06:55 PM	A020	320	WALLACE	CSCI	5	1	4	Y\
+[iveyas@Einstein:~]$ grep -P "^$\{FIELD\}\{8\}[1|2|3].." 2016_spring_sections.txt | wc -l\
+75\
+[iveyas@Einstein:~]$ \
+Problem 9:\
+\
+[iveyas@Einstein:~]$ grep -P "^([^\\t]*\\t)\{9\}(BAILES)(\\s+)" 2016_spring_sections.txt\
+CSCI-1260-201	Intro Computer Sci II	13559	4	MW	05:00 PM	06:55 PM	A020	490	BAILES	CSCI	29	11	18	Y\
+CSCI-2210-001	Data Structures	13682	4	TR	09:05 AM	11:05 AA020	320	BAILES	CSCI	25	31	-6	Y\
+CSCI-2210-002	Data Structures	16062	4	TR	02:15 PM	04:15 PA020	321	BAILES	CSCI	12	12	0	Y\
+[iveyas@Einstein:~]$ grep -P "^([^\\t]*\\t)\{9\}(BAILES)(\\s+)" 2016_spring_sections.txt\
+\
+Problem 10:  I can not figure out how to use the echo part of this problem \
+     19 BURKE\
+     15 BARRETT\
+      8 WALLACE\
+      6 BHUSE\
+      5 LEHRFELD\
+      5 BAILEY\
+      4 RAMSEY\
+      4 PITTARESE\
+      4 PFEIFFER\
+      4 OGLE\
+      4 JARMAN\
+      4 COUNTERMINE\
+      4 BENNETT\
+      3 TARNOFF\
+      3 SCHNEIDER\
+      3 ROACH\
+      3 PRICE\
+      3 HOQUE\
+      3 BLANKENSHIP\
+      3 BAILES\
+      2 TAYLOR\
+      2 STAFF\
+      2 ROWLAND\
+      2 ROBINSON\
+      2 LIKENS\
+      2 LAWS\
+      2 ELLIOTT\
+      2 CROSS\
+      2 BURTON\
+      2 BUCKNER\
+      2 BROWN\
+      1 SCHULTZ\
+      1 MCMEEN\
+[iveyas@Einstein:~]$ cat 2016_spring_sections.txt | cut -f 10 | sort | uniq -c | sort -b -k 1nr -k 1,9r | head n -1\
+head: invalid trailing option -- 1\
+Try `head --help' for more information.\
+[iveyas@Einstein:~]$ cat 2016_spring_sections.txt | cut -f 10 | sort | uniq -c | sort -b -k 1nr -k 1,9r | head -1\
+     19 BURKE\
+\
+[iveyas@Einstein:~]$ cat 2016_spring_sections.txt | cut -f 10 | sort | uniq -c | sort -b -k 1nr -k 1,9r | head -1 | tr -d [0-9]\
+      BURKE\
+\
+Problem 11}
