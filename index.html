@@ -8,7 +8,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Allison Ivey's Portfolio</title>
+    <title>Allison Ivey's Portfolio
+	<ion-tabs tabsPlacement="top" >
+		<ion-tab [root]="Allison Ivey's Portfolio" tabTitle="Allison Ivey's Portfolio" tabIcon="fa-bicycle" ></ion-tab>   
+	</ion-tabs>
+	</title>
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -19,7 +23,7 @@
 	
     <!-- Custom CSS -->
     <link href="css/stylish-portfolio.min.css" rel="stylesheet">
-
+	<ion-tab [root]="Allison Ivey's Portfolio" class="fa fa-bicycle" tabTitle="Home"></ion-tab>
   </head>
 
   <body id="page-top">
@@ -213,10 +217,12 @@
 		<p>224 Poplar Hill Dr.</p>
 		<p>Johnson City, TN 37604</p>
         <a href="mailto:iveyas@etsu.edu?subject=We want you!" class="btn btn-xl btn-dark" style="background-color:#1DA07C; border-color:#1DA07C; color:#fff">Email</a>
-      </div>
-    </section>
+		<div class="LI-profile-badge"  data-version="v1" data-size="medium" data-locale="en_US" data-type="vertical" data-theme="light" data-vanity="allison-ivey"><a class="LI-simple-link" href='https://www.linkedin.com/in/allison-ivey?trk=profile-badge'>Allison Ivey</a></div>
+	  </div>
 
-    <!-- Footer -->
+	
+	</section>
+	<!-- Footer -->
     <footer class="footer text-center">
       <div class="container">
         <ul class="list-inline mb-5">
@@ -234,6 +240,7 @@
       </div>
     </footer>
 
+
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded js-scroll-trigger" href="#page-top">
       <i class="fa fa-angle-up"></i>
@@ -242,6 +249,7 @@
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript" src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>	
 
     <!-- Plugin JavaScript -->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
