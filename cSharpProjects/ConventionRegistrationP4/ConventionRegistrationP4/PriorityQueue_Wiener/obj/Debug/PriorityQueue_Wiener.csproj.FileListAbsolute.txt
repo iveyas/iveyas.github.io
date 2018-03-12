@@ -1,5 +1,0 @@
-C:\Users\Allison\Source\Repos\ConventionRegistrationP4\ConventionRegistrationP4\PriorityQueue_Wiener\bin\Debug\PriorityQueue_Wiener.dll
-C:\Users\Allison\Source\Repos\ConventionRegistrationP4\ConventionRegistrationP4\PriorityQueue_Wiener\bin\Debug\PriorityQueue_Wiener.pdb
-C:\Users\Allison\Source\Repos\ConventionRegistrationP4\ConventionRegistrationP4\PriorityQueue_Wiener\obj\Debug\PriorityQueue_Wiener.csprojResolveAssemblyReference.cache
-C:\Users\Allison\Source\Repos\ConventionRegistrationP4\ConventionRegistrationP4\PriorityQueue_Wiener\obj\Debug\PriorityQueue_Wiener.dll
-C:\Users\Allison\Source\Repos\ConventionRegistrationP4\ConventionRegistrationP4\PriorityQueue_Wiener\obj\Debug\PriorityQueue_Wiener.pdb
