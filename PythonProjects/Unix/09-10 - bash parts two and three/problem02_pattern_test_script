@@ -1,0 +1,82 @@
+#!/bin/bash
+#
+# bash script for testing a pattern that should match last -Faw records for completed sessions
+# supply one parameter:
+# -.   the name of a file containing one line: a pattern that checks for records for ongoing sessions (default: problem1_pattern.txt)
+
+# **** parameter checking and script variable initialization ****
+
+# --- ---- supporting routine: checks if argument exists and is a regular file --- ----
+
+function assert_nonempty_regular_file {
+  if [ ! -e $1 ]; then  echo '??' $0: file "$1" doesn\'t exist         >/dev/stderr;  exit 2; fi
+  if [ ! -f $1 ]; then  echo '??' $0: item "$1" isn\'t a regular file  >/dev/stderr;  exit 2; fi
+  if [ ! -s $1 ]; then  echo '??' $0: file "$1" is empty               >/dev/stderr;  exit 2; fi
+}
+
+# --- parameter checking proper ----
+
+if [ $# -ne 1 ]; then echo '??' $0: exactly 1 arg required: "$#" supplied >/dev/stderr; exit 2;  fi
+
+pattern_file=$1
+assert_nonempty_regular_file "$pattern_file"
+
+# **** main body of script starts here ****
+
+# --- supporting routines ---
+
+test_number=0
+
+# run one test using string (1st param) that should match
+#
+function should_match {
+  let test_number+=1
+  echo -n test $test_number: should match pattern ...
+  grep -P -f $pattern_file <<<"$1" &>/dev/null
+  if [ $? -eq 0 ]; then echo passed; else echo FAILED; fi
+}
+
+# run one test using string (1st param) that should not match, due to syndrome (2nd param)
+#
+function should_not_match {
+  let test_number+=1
+  echo -n test $test_number: should not match due to "$2" ...
+  grep -P -f $pattern_file <<<"$1" &>/dev/null
+  if [ $? -ne 0 ]; then echo passed; else echo FAILED; fi
+}
+
+# --- tests proper ---
+
+should_match $'reboot   system boot  Fri Mar 18 08:00:29 2016 - Tue Mar 29 07:17:32 2016 (1+23:17)'
+should_match $'reboot   system boot  Fri Mar 18 08:00:29 2016 - Tue Mar 29 07:17:32 2016 (10+23:17)'
+should_match $'reboot   system boot  Fri Mar 18 08:00:29 2016 - Tue Mar 29 07:17:32 2016 (100+23:17)'
+should_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 03:58:32 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com'
+
+should_not_match $'reboot   system boot  Fri Mar 18 08:00:29 2016 - Tue Mar 29 07:17:32 2016 (0+23:17)' '0+23'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 Tue Mar 29 03:58:32 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' 'missing hyphen'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tu Mar 29 03:58:32 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' 'Tu Mar 29'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Mar Mar 29 03:58:32 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' 'Mar Mar 29'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Ma 29 03:58:32 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' 'Tue Ma 29'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Tue 29 03:58:32 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' 'Tue Tue 29'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 9 03:58:32 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' 'Tue Mar 9'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 33 03:58:32 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' 'Tue Mar 33'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 3:58:32 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' '3:58:32'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 33:58:32 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' '33:58:32'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 003:58:32 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' '033:58:32'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 0358:32 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' '0358:32'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 03:8:32 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' '03:8:32'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 03:68:32 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' '03:68:32'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 03:058:32 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' '03:058:32'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 03:5832 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' '03:58:32'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 03:58:2 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' '03:58:2'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 03:58:72 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' '03:58:72'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 03:58:032 2016  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' '03:58:032'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 03:58:32 216  (02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' '216'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 03:58:32 2016  02:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' '02:02)'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 03:58:32 2016  (2:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' '(2:02)'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 03:58:32 2016  (32:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' '(32:02)'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 03:58:32 2016  (002:02)     96-33-0-219.dhcp.jcsn.tn.charter.com' '(002:02)'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 03:58:32 2016  (0202)     96-33-0-219.dhcp.jcsn.tn.charter.com' '(0202)'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 03:58:32 2016  (02:62)     96-33-0-219.dhcp.jcsn.tn.charter.com' '(02:62)'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 03:58:32 2016  (02:002)     96-33-0-219.dhcp.jcsn.tn.charter.com' '(02:002)'
+should_not_match $'robert pts/7  Tue Mar 29 01:55:42 2016 - Tue Mar 29 03:58:32 2016  (02:02     96-33-0-219.dhcp.jcsn.tn.charter.com' '(02:02'
